@@ -1,4 +1,6 @@
 defmodule WidgetMarket.Widgets.Widget do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 

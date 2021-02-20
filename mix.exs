@@ -10,7 +10,8 @@ defmodule WidgetMarket.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      source_url: "https://github.com/jsackett-303/widget-market"
     ]
   end
 
@@ -42,6 +43,7 @@ defmodule WidgetMarket.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.4"},
+      {:ex_doc, "~> 0.23.0", only: :dev, runtime: false},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},

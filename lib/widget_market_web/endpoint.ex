@@ -1,4 +1,6 @@
 defmodule WidgetMarketWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :widget_market
 
   # The session will be stored in the cookie and signed,

@@ -1,4 +1,6 @@
 defmodule WidgetMarketWeb.Router do
+  @moduledoc false
+
   use WidgetMarketWeb, :router
   use Pow.Phoenix.Router
 
