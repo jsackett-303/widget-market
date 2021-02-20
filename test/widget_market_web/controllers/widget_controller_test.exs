@@ -9,16 +9,18 @@ defmodule WidgetMarketWeb.WidgetControllerTest do
   @invalid_attrs %{description: nil, name: nil, price: nil}
   @user_attrs %{email: "foo@example.com", first_name: "some", last_name: "name",
       password: "password", password_confirmation: "password"}
+  @another_user_attrs %{email: "bar@example.com", first_name: "new", last_name: "name",
+      password: "password", password_confirmation: "password"}
 
-  def fixture(:user) do
-    {:ok, user} = Users.create(@user_attrs)
+  def fixture(:user, attrs) do
+    {:ok, user} = Users.create(attrs)
     user
   end
 
-  def fixture(:widget) do
+  def fixture(:widget, attrs) do
     user = Repo.get_by(Users.User, email: "foo@example.com")
-    attrs = Map.put(@create_attrs, :user_id, user.id)
-    {:ok, widget} = Widgets.create_widget(attrs)
+    new_attrs = Map.put(attrs, :user_id, user.id)
+    {:ok, widget} = Widgets.create_widget(new_attrs)
 
     widget
     |> Repo.preload(:user)
@@ -89,6 +91,13 @@ defmodule WidgetMarketWeb.WidgetControllerTest do
       assert html_response(conn, 200) =~ "some updated description"
     end
 
+    test "does not allow update by another user", %{conn: conn, widget: widget} do
+      user = create_another_user()
+      pow_conn = Plug.assign_current_user(conn, user, [])
+      conn = put(pow_conn, Routes.widget_path(conn, :update, widget), widget: @invalid_attrs)
+      assert redirected_to(conn) == Routes.widget_path(pow_conn, :index)
+    end
+
     test "renders errors when data is invalid", %{conn: conn, user: user, widget: widget} do
       pow_conn = Plug.assign_current_user(conn, user, [])
       conn = put(pow_conn, Routes.widget_path(conn, :update, widget), widget: @invalid_attrs)
@@ -107,15 +116,26 @@ defmodule WidgetMarketWeb.WidgetControllerTest do
         get(pow_conn, Routes.widget_path(conn, :show, widget))
       end
     end
+
+    test "does not allow delete by another user", %{conn: conn, widget: widget} do
+      user = create_another_user()
+      pow_conn = Plug.assign_current_user(conn, user, [])
+      conn = delete(pow_conn, Routes.widget_path(conn, :delete, widget))
+      assert redirected_to(conn) == Routes.widget_path(pow_conn, :index)
+    end
   end
 
   defp create_user(_) do
-    user = fixture(:user)
+    user = fixture(:user, @user_attrs)
     %{user: user}
   end
 
+  defp create_another_user() do
+    fixture(:user, @another_user_attrs)
+  end
+
   defp create_widget(_) do
-    widget = fixture(:widget)
+    widget = fixture(:widget, @create_attrs)
     %{widget: widget}
   end
 end

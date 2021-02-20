@@ -41,26 +41,40 @@ defmodule WidgetMarketWeb.WidgetController do
   end
 
   def update(conn, %{"id" => id, "widget" => widget_params}) do
+    user_id = current_user(conn)
     widget = Widgets.get_widget!(id)
 
-    case Widgets.update_widget(widget, widget_params) do
-      {:ok, widget} ->
-        conn
-        |> put_flash(:info, "Widget updated successfully.")
-        |> redirect(to: Routes.widget_path(conn, :show, widget))
+    if widget.user_id != user_id do
+      conn
+      |> put_flash(:error, "That action is not allowed.")
+      |> redirect(to: Routes.widget_path(conn, :index))
+    else
+      case Widgets.update_widget(widget, widget_params) do
+        {:ok, widget} ->
+          conn
+          |> put_flash(:info, "Widget updated successfully.")
+          |> redirect(to: Routes.widget_path(conn, :show, widget))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", widget: widget, changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "edit.html", widget: widget, changeset: changeset)
+      end
     end
   end
 
   def delete(conn, %{"id" => id}) do
+    user_id = current_user(conn)
     widget = Widgets.get_widget!(id)
-    {:ok, _widget} = Widgets.delete_widget(widget)
+    if widget.user_id != user_id do
+      conn
+      |> put_flash(:error, "That action is not allowed.")
+      |> redirect(to: Routes.widget_path(conn, :index))
+    else
+      {:ok, _widget} = Widgets.delete_widget(widget)
 
-    conn
-    |> put_flash(:info, "Widget deleted successfully.")
-    |> redirect(to: Routes.widget_path(conn, :index))
+      conn
+      |> put_flash(:info, "Widget deleted successfully.")
+      |> redirect(to: Routes.widget_path(conn, :index))
+    end
   end
 
   defp current_user(%Plug.Conn{assigns: %{current_user: user}}) do
