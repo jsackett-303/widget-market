@@ -8,9 +8,9 @@ defmodule WidgetMarketWeb.WidgetControllerTest do
   @update_attrs %{description: "some updated description", name: "some updated name", price: "456.7"}
   @invalid_attrs %{description: nil, name: nil, price: nil}
   @user_attrs %{email: "foo@example.com", first_name: "some", last_name: "name",
-      password: "password", password_confirmation: "password"}
+      credit: 10.00, password: "password", password_confirmation: "password"}
   @another_user_attrs %{email: "bar@example.com", first_name: "new", last_name: "name",
-      password: "password", password_confirmation: "password"}
+      credit: 5.00, password: "password", password_confirmation: "password"}
 
   def fixture(:user, attrs) do
     {:ok, user} = Users.create(attrs)

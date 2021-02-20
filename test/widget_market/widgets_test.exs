@@ -7,7 +7,7 @@ defmodule WidgetMarket.WidgetsTest do
   describe "widgets" do
 
     @user_attrs %{email: "foo@example.com", first_name: "some", last_name: "name",
-      password: "password", password_confirmation: "password"}
+      credit: 10.00, password: "password", password_confirmation: "password"}
     @valid_attrs %{description: "some description", name: "some name", price: "120.5", user_id: 42}
     @update_attrs %{description: "some updated description", name: "some updated name", price: "456.7", user_id: 43}
     @invalid_attrs %{description: nil, name: nil, price: nil, user_id: nil}

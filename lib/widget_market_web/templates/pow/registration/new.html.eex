@@ -7,6 +7,10 @@
     </div>
   <% end %>
 
+  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+
   <%= label f, :first_name %>
   <%= text_input f, :first_name %>
   <%= error_tag f, :first_name %>
@@ -15,9 +19,9 @@
   <%= text_input f, :last_name %>
   <%= error_tag f, :last_name %>
 
-  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  <%= label f, :credit %>
+  <%= text_input f, :credit %>
+  <%= error_tag f, :credit %>
 
   <%= label f, :password %>
   <%= password_input f, :password %>

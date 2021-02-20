@@ -4,7 +4,7 @@ defmodule WidgetMarket.MixProject do
   def project do
     [
       app: :widget_market,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -35,7 +35,7 @@ defmodule WidgetMarket.MixProject do
   defp deps do
     [
       {:pow, "~> 1.0.22"},
-      {:ecto_psql_extras, "~> 0.2"},
+      {:ecto_psql_extras, "~> 0.6"},
       {:phoenix, "~> 1.5.7"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
