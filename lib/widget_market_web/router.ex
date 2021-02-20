@@ -1,5 +1,6 @@
 defmodule WidgetMarketWeb.Router do
   use WidgetMarketWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,8 +14,19 @@ defmodule WidgetMarketWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", WidgetMarketWeb do
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  scope "/" do
     pipe_through :browser
+
+    pow_routes()
+   end
+
+  scope "/", WidgetMarketWeb do
+    pipe_through [:browser, :protected]
 
     get "/", PageController, :index
   end
@@ -31,12 +43,10 @@ defmodule WidgetMarketWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  import Phoenix.LiveDashboard.Router
 
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: WidgetMarketWeb.Telemetry
-    end
+  scope "/" do
+    pipe_through [:browser, :protected]
+    live_dashboard "/dashboard", metrics: WidgetMarketWeb.Telemetry, ecto_repos: [WidgetMarket.Repo]
   end
 end

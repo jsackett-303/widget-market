@@ -20,7 +20,7 @@ defmodule WidgetMarket.MixProject do
   def application do
     [
       mod: {WidgetMarket.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -33,6 +33,8 @@ defmodule WidgetMarket.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:pow, "~> 1.0.22"},
+      {:ecto_psql_extras, "~> 0.2"},
       {:phoenix, "~> 1.5.7"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
