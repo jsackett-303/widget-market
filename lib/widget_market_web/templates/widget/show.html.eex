@@ -1,0 +1,28 @@
+<h1>Show Widget</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @widget.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @widget.description %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @widget.price %>
+  </li>
+
+  <li>
+    <strong>Seller:</strong>
+    <%= @widget.user.email %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.widget_path(@conn, :edit, @widget) %></span>
+<span><%= link "Back", to: Routes.widget_path(@conn, :index) %></span>

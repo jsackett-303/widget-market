@@ -2,6 +2,6 @@ defmodule WidgetMarketWeb.PageController do
   use WidgetMarketWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    redirect(conn, to: "/widgets")
   end
 end

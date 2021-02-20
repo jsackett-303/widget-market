@@ -29,6 +29,7 @@ defmodule WidgetMarketWeb.Router do
     pipe_through [:browser, :protected]
 
     get "/", PageController, :index
+    resources "/widgets", WidgetController
   end
 
   # Other scopes may use custom stacks.

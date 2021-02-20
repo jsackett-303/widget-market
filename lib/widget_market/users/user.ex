@@ -3,6 +3,8 @@ defmodule WidgetMarket.Users.User do
   use Pow.Ecto.Schema
   import Ecto.Changeset
 
+  alias WidgetMarket.Widgets.Widget
+
   @required_fields [:first_name, :last_name]
 
   schema "users" do
@@ -11,13 +13,14 @@ defmodule WidgetMarket.Users.User do
 
     pow_user_fields()
 
+    has_many :widgets, Widget
+
     timestamps()
   end
 
   def changeset(user_or_changeset, attrs) do
     user_or_changeset
-    |> Map.put(:first_name, attrs["first_name"])
-    |> Map.put(:last_name, attrs["last_name"])
+    |> cast(attrs, @required_fields)
     |> pow_changeset(attrs)
     |> validate_required(@required_fields)
   end
