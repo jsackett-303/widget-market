@@ -11,13 +11,36 @@ defmodule WidgetMarket do
 
   I chose pow after a a bit of a web search and appreciated the
   simplicity of adding it to an html serving app. Not so sure it
-  is the best choice for an api app. But, yet to do the research.
+  is the best choice for an api app. But, yet to do the research
+  to back that statement completely.
 
-  I regret choosing a decimal column for the widget prices and user
-  credit. Float would have been much easier to deal with throughout
-  the code imho.
+  I question choosing a decimal column for the widget prices and user
+  credit. Column manipuation requires a bit of hand holding with
+  the Decimal library.
 
   To run the application, see the instructions in the README.md file.
+
+  When you access the page at http://localhost:4000 you will be
+  presented with a login form and a Register link below. If you
+  already have an account, login. Or register as a new user
+  and then login. You may set your initial marketplace credit when
+  you sign-up or anytime thereafter by accessing the Edit account link
+  at the top right of the page.
+
+  You will then be presented with a list of widgets and can begin
+  participating in the market. If you have widgets to sell, create
+  them. If you would like to purchase widgets, just follow the
+  Purchase link.
+
+  You cannot purchase your own widgets and cannot edit or delete
+  other user's widgets. You may not make a purchase when your
+  available credit reaches 0.0.
+
+  When you make a purchase, the price is debited from your available
+  credit. If you sell a widget, the price is credited to you minus
+  a five percent marketplace fee.
+
+  Happy widgeting!
 
   Thank you.
   """

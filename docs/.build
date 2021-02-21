@@ -7,6 +7,7 @@ WidgetMarket.Widgets.html
 WidgetMarket.html
 WidgetMarketWeb.ErrorHelpers.html
 WidgetMarketWeb.Gettext.html
+WidgetMarketWeb.ReloadUserPlug.html
 WidgetMarketWeb.Router.Helpers.html
 WidgetMarketWeb.WidgetController.html
 WidgetMarketWeb.html
@@ -17,7 +18,7 @@ dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/search_items-a2c415b6b1.js
-dist/sidebar_items-436c82f9e9.js
+dist/search_items-8759553902.js
+dist/sidebar_items-dc40ff9c95.js
 index.html
 search.html
