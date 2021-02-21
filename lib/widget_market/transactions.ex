@@ -56,18 +56,18 @@ defmodule WidgetMarket.Transactions do
   """
   def create_transaction(
     %{buyer_id: buyer_id,
-      seller_id: seller_id,
       widget_id: widget_id} = attrs) do
 
     Repo.transaction(fn ->
       widget = Widgets.get_widget!(widget_id)
+      seller_id = widget.user_id
 
       with {:ok, _} <- Users.credit(seller_id, widget.price),
            {:ok, _} <- Users.debit(buyer_id, widget.price),
            {:ok, _} <- Widgets.update_widget(widget, %{user_id: buyer_id}),
            {:ok, transaction} <-
              %Transaction{}
-             |> Transaction.changeset(attrs)
+             |> Transaction.changeset(Map.put(attrs, :seller_id, seller_id))
              |> Repo.insert()
       do
         transaction

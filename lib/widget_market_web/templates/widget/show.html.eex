@@ -25,4 +25,5 @@
 </ul>
 
 <span><%= link "Edit", to: Routes.widget_path(@conn, :edit, @widget) %></span>
+<span><%= link "Purchase", to: Routes.widget_path(@conn, :purchase, @widget), method: :put, data: [confirm: "Are you sure?"] %></span>
 <span><%= link "Back", to: Routes.widget_path(@conn, :index) %></span>

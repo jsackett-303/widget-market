@@ -5,7 +5,7 @@ defmodule WidgetMarketWeb.WidgetController do
 
   use WidgetMarketWeb, :controller
 
-  alias WidgetMarket.Widgets
+  alias WidgetMarket.{Transactions, Widgets}
   alias WidgetMarket.Widgets.Widget
 
   @doc """
@@ -28,8 +28,8 @@ defmodule WidgetMarketWeb.WidgetController do
   Creates a new widget
   """
   def create(conn, %{"widget" => params}) do
-    user_id = current_user(conn)
-    widget_params = Map.merge(params, %{"user_id" => user_id})
+    user = current_user(conn)
+    widget_params = Map.merge(params, %{"user_id" => user.id})
 
     case Widgets.create_widget(widget_params) do
       {:ok, widget} ->
@@ -63,10 +63,10 @@ defmodule WidgetMarketWeb.WidgetController do
   Updates a widget. Only the widget owner is allowed to do this.
   """
   def update(conn, %{"id" => id, "widget" => widget_params}) do
-    user_id = current_user(conn)
+    user = current_user(conn)
     widget = Widgets.get_widget!(id)
 
-    if widget.user_id != user_id do
+    if widget.user_id != user.id do
       conn
       |> put_flash(:error, "That action is not allowed.")
       |> redirect(to: Routes.widget_path(conn, :index))
@@ -84,12 +84,39 @@ defmodule WidgetMarketWeb.WidgetController do
   end
 
   @doc """
+  Purchases a widget. Creates a marketplace transaction
+  """
+  def purchase(conn, %{"id" => id}) do
+    buyer = current_user(conn)
+    widget = Widgets.get_widget!(id)
+
+    if widget.user_id == buyer.id do
+      conn
+      |> put_flash(:error, "Cannot purchase your own widget.")
+      |> redirect(to: Routes.widget_path(conn, :index))
+    else
+      Transactions.create_transaction(%{buyer_id: buyer.id, widget_id: widget.id})
+      |> case do
+       {:ok, _} ->
+         widget = Widgets.get_widget!(id)
+         conn
+         |> put_flash(:info, "Widget successfully purchased.")
+         |> redirect(to: Routes.widget_path(conn, :show, widget))
+
+        _ ->
+         put_flash(conn, :error, "Purchase was unsuccessful. Check your credit.")
+         |> redirect(to: Routes.widget_path(conn, :index))
+      end
+    end
+  end
+
+  @doc """
   Deletes a widget. Only the widget owner is allowed to do this.
   """
   def delete(conn, %{"id" => id}) do
-    user_id = current_user(conn)
+    user = current_user(conn)
     widget = Widgets.get_widget!(id)
-    if widget.user_id != user_id do
+    if widget.user_id != user.id do
       conn
       |> put_flash(:error, "That action is not allowed.")
       |> redirect(to: Routes.widget_path(conn, :index))
@@ -103,6 +130,6 @@ defmodule WidgetMarketWeb.WidgetController do
   end
 
   defp current_user(%Plug.Conn{assigns: %{current_user: user}}) do
-    user.id
+    user
   end
 end

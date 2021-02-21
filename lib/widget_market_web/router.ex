@@ -32,6 +32,7 @@ defmodule WidgetMarketWeb.Router do
 
     get "/", PageController, :index
     resources "/widgets", WidgetController
+    put "/widgets/:id/purchase", WidgetController, :purchase
   end
 
   # Other scopes may use custom stacks.

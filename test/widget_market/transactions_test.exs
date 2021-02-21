@@ -29,7 +29,6 @@ defmodule WidgetMarket.TransactionsTest do
       widget = widget_fixture(seller.id)
       local_attrs = %{
         buyer_id: buyer.id,
-        seller_id: seller.id,
         widget_id: widget.id
       }
 
@@ -57,12 +56,10 @@ defmodule WidgetMarket.TransactionsTest do
       widget = widget_fixture(seller.id)
       attrs = %{
         buyer_id: buyer.id,
-        seller_id: seller.id,
         widget_id: widget.id
       }
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(attrs)
       assert transaction.buyer_id == buyer.id
-      assert transaction.seller_id == seller.id
       assert transaction.widget_id == widget.id
 
       buy_diff = Decimal.sub("10.00", widget.price)
@@ -86,7 +83,6 @@ defmodule WidgetMarket.TransactionsTest do
       widget = widget_fixture(seller.id)
       attrs = %{
         buyer_id: buyer.id,
-        seller_id: seller.id,
         widget_id: widget.id
       }
       assert {:error, _} = Transactions.create_transaction(attrs)
@@ -105,7 +101,6 @@ defmodule WidgetMarket.TransactionsTest do
       widget = widget_fixture(seller.id)
       attrs = %{
         buyer_id: buyer.id,
-        seller_id: seller.id,
         widget_id: widget.id
       }
       assert {:ok, _transaction} = Transactions.create_transaction(attrs)
